@@ -27,7 +27,7 @@
 		3E4825C7240A22FB00B4B816 /* CFramework */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CFramework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E4825CA240A22FB00B4B816 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		3E8ACC77240A44B000552E89 /* example.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = example.cpp; sourceTree = "<group>"; };
-		3E8ACC78240A44B000552E89 /* example.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = example.hpp; sourceTree = "<group>"; };
+		3E8ACC78240A44B000552E89 /* example.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = example.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +62,7 @@
 			children = (
 				3E4825CA240A22FB00B4B816 /* main.cpp */,
 				3E8ACC77240A44B000552E89 /* example.cpp */,
-				3E8ACC78240A44B000552E89 /* example.hpp */,
+				3E8ACC78240A44B000552E89 /* example.h */,
 			);
 			path = CFramework;
 			sourceTree = "<group>";
