@@ -24,3 +24,9 @@ DerivedData/
 
 ## Gcc Patch
 /*.gcno
+
+# Visual Studio Code
+*.exe
+*.ilk
+*.pdb
+*.obj
