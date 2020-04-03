@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdlib.h>
 #include <cctype>
 #include "example.h"
 
@@ -205,4 +206,159 @@ void Example::inverse(char *str1, char *str2)
     inverse(str1 + 1, str2);
 
     strncat(str2, str1, 1); // 把 str1 所指向的字符串追加到 str2 所指向的字符串的结尾。
+}
+
+// 二级指针做输入
+// 第一种内存模型
+void Example::Test6()
+{
+    // 数组 数组中的每一个元素是指针 指针数组
+    char *myArray[] = {"b", "a", "c", "e", "d"};
+    int num = sizeof(myArray) / sizeof(myArray[0]);
+
+    printf("第一种内存模型排序之前\n");
+    for (int i = 0; i < num; i++)
+    {
+        printf("%s \n", myArray[i]);
+    }
+
+    sortStringArray(myArray, num);
+
+    printf("第一种内存模型排序之后\n");
+    printStringArray(myArray, num);
+}
+
+void Example::printStringArray(char **strArray, int num)
+{
+    for (int i = 0; i < num; i++)
+    {
+        printf("%s \n", *(strArray + i));
+    }
+}
+
+void Example::sortStringArray(char **strArray, int num)
+{
+    char *tmp = NULL;
+    for (int i = 0; i < num; i++)
+    {
+        for (int j = i; j < num; j++)
+        {
+            if (strcmp(strArray[i], strArray[j]) > 0)
+            {
+                tmp = strArray[i]; // 注意，交换的是指针变量的值，即改变指针的指向。
+                strArray[i] = strArray[j];
+                strArray[j] = tmp;
+            }
+        }
+    }
+}
+
+// 二级指针做输入
+// 第二种内存模型
+void Example::Test7()
+{
+    int i = 0;
+    int num = 5;
+    char tmpBuf[30];
+    char myArray[10][30] = {"b", "a", "c", "e", "d"}; // 编译器只关心，数组有10行，每行30列。 为什么？ myArray+1 多维数组名的本质，即步长=30。
+
+    printf("第二种内存模型排序之前\n");
+    for (int i = 0; i < num; i++)
+    {
+        printf("%s \n", myArray[i]);
+    }
+
+    for (int i = 0; i < num; i++)
+    {
+        for (int j = i + 1; j < num; j++)
+        {
+            if (strcmp(myArray[i], myArray[j]) > 0)
+            {
+                strcpy(tmpBuf, myArray[i]); // 注意，交换的是内存块。
+                strcpy(myArray[i], myArray[j]);
+                strcpy(myArray[j], tmpBuf);
+            }
+        }
+    }
+
+    printf("第二种内存模型排序之后\n");
+    for (int i = 0; i < num; i++)
+    {
+        printf("%s \n", myArray[i]);
+    }
+}
+
+// 二级指针做输入
+// 第三种内存模型
+void Example::Test8()
+{
+    int num = 5;
+    char **p1 = NULL;
+    char *tmp = NULL;
+    char tmpBuf[100];
+    getMem(&p1, num);
+
+    printf("第三种内存模型排序之前\n");
+    printStringArray(p1, num);
+
+    // 排序交换指针
+    sortStringArray(p1, num);
+
+    printf("排序交换指针之后\n");
+    for (int i = 0; i < num; i++)
+    {
+        printf("%s \n", p1[i]);
+    }
+
+    // 排序交换内存
+    for (int i = 0; i < num; i++)
+    {
+        for (int j = i + 1; j < num; j++)
+        {
+            if (strcmp(p1[i], p1[j]) < 0)
+            {
+                strcpy(tmpBuf, p1[i]); // 注意，交换的是内存块。
+                strcpy(p1[i], p1[j]);
+                strcpy(p1[j], tmpBuf);
+            }
+        }
+    }
+
+    printf("排序交换内存之后\n");
+    printStringArray(p1, num);
+
+    // 释放内存
+    getMemFree(&p1, num);
+}
+
+void Example::getMem(char ***p1, int num)
+{
+    char **tmp = NULL;
+    tmp = (char **)malloc(sizeof(char *) * num);
+
+    for (int i = 0; i < num; i++)
+    {
+        tmp[i] = (char *)malloc(sizeof(char) * 100); // char buf[100];
+        sprintf(tmp[i], "%d", num - i);
+    }
+
+    *p1 = tmp;
+}
+
+void Example::getMemFree(char ***p1, int num)
+{
+    char **tmp = *p1;
+    for (int i = 0; i < num; i++)
+    {
+        if (tmp[i] != NULL)
+        {
+            free(tmp[i]);
+            tmp[i] = NULL;
+        }
+    }
+    if (tmp != NULL)
+    {
+        free(tmp);
+        *p1 = NULL; // 把实参赋值成NULL，避免野指针。
+    }
 }

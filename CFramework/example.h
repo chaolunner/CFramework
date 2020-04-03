@@ -11,6 +11,9 @@ public:
     void Test3();
     void Test4();
     void Test5();
+    void Test6();
+    void Test7();
+    void Test8();
 
 private:
     void copy_str1(char *from, char *to);
@@ -22,6 +25,10 @@ private:
     void trimSpace(char *str);
     void inverse(char *str);
     void inverse(char *str1, char *str2);
+    void printStringArray(char **strArray, int num);
+    void sortStringArray(char **strArray, int num);
+    void getMem(char ***p1, int num);
+    void getMemFree(char ***p1, int num);
 };
 
 #endif
