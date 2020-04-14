@@ -12,5 +12,7 @@ int main(int argc, const char *argv[])
     example.Test6();
     example.Test7();
     example.Test8();
+    example.Test9();
+    example.Test10();
     return 0;
 }

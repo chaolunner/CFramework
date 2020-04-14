@@ -14,6 +14,8 @@ public:
     void Test6();
     void Test7();
     void Test8();
+    void Test9();
+    void Test10();
 
 private:
     void copy_str1(char *from, char *to);

@@ -362,3 +362,80 @@ void Example::getMemFree(char ***p1, int num)
         *p1 = NULL; // 把实参赋值成NULL，避免野指针。
     }
 }
+
+// 定义数组指针变量的方法
+void Example::Test9()
+{
+    char *myArray1[] = {"abc", "def", "ghi"}; // 指针数组
+
+    // 数组指针，用一个指针来指向一个数组
+
+    // 第一种方法：
+    typedef int(MyArrayType)[5]; // 定义了一个数据类型， 数组数据类型
+    MyArrayType myArray2;
+    MyArrayType *pArray2; // 定义一个指针变量，这个指针变量 指向一个数组
+
+    pArray2 = &myArray2;
+
+    // 第二种方法：
+    typedef int(*PArrayType)[5]; // 定义一个数组指针类型
+    PArrayType pArray3;          // 告诉编译器，给我分配一个指针变量
+
+    int myArray3[5];
+    pArray3 = &myArray3;
+
+    // 第三种方法：
+    int(*pArray4)[5]; // 直接定义一个指向数组的，数组指针变量
+
+    int a[3][5];
+    int tmp = 1;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            a[i][j] = tmp++;
+        }
+    }
+
+    printf("多维数组名的本质：指向数组的指针变量\n");
+    // 比如二维数组名的本质，就是指向一维数组的指针变量
+    pArray4 = a;
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 5; j++)
+        {
+            printf("%d ", pArray4[i][j]);
+        }
+    }
+    printf("\n");
+    printf("a : %d, a + 1 : %d \n", a, a + 1);     // a + 1的步长，是20个字节，4 x 5 即一维数组的长度
+    printf("&a : %d, &a + 1 : %d \n", &a, &a + 1); // &a + 1的步长， 是60个字节， 3 x 20 即二维数组的长度
+    // a[i][j] == *( *(a + i) + j )
+}
+
+// 定义一个结构体类型
+// 类型的重定义 typedef struct 类型名 { 成员表列 } 别名;
+typedef struct Student
+{
+    char name[64];
+    int age;
+    int id;
+} Student;
+
+// 结构体
+void Example::Test10()
+{
+    struct Student s1;            // 告诉C编译器分配内存
+    Student s2 = {"小明", 18, 1}; // 注意，在C中只有进行了类型重定义之后才可以这样写！
+    printf("姓名：%s 年龄：%d 学号：%d \n", s2.name, s2.age, s2.id);
+    // s2. 操作符是干什么？有没有操作内存？
+    // . 寻址操作，计算name相对于s2变量的偏移量,在cpu中进行计算
+    // 没有操作内存
+
+    Student *p = NULL;
+    p = &s2;
+    p->age = 21; // 通过指针的方式操作内存空间
+    // -> 寻址操作，计算age相对于s2变量的偏移量,在cpu中进行计算
+    // 没有操作内存
+    printf("姓名：%s 年龄：%d 学号：%d \n", p->name, p->age, p->id);
+}
